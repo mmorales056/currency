@@ -16,7 +16,7 @@ var Currency = ( function () {
 	/** Formato de moneda */
 	Currency.prototype.format = function ( data ) {
 		// Valores por defecto
-		var def = { number:0 , decimales:0 , decPoint:'.' , thousandsSep:',' };
+		var def = { number:0 , decimales:0 , decPoint:',' , thousandsSep:'.' , prefix:'$ ' };
 
 		// Datos
 		var data = $.extend( def , data );
@@ -42,7 +42,7 @@ var Currency = ( function () {
 		}
 
 		// Respuesta
-		return res ;
+		return data.prefix + res ;
 	}
 
 	// Instancia
