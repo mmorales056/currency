@@ -1,0 +1,11 @@
+##
+# PROYECTO
+#
+/_sublime/
+/nbproject/
+
+
+##
+# GRUNT
+#
+/node_modules/
