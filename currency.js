@@ -1,50 +1,67 @@
+window.app = window.app || {}; // Objeto general
+
 /**
- * OBJECTO MONEDA
+ * CLOSURE PARA EL MANEJO DE MONEDA
+ * @author Steven Pardo 2017-03-27
  */
-var Currency = ( function () {
-	/** Constructor */
-	function Currency () {
-		// Manejo de errores
+app.Currency = (function () {
+
+	'use strict';
+	
+	/**
+	 * CONSTRUCTOR
+	 * @author Steven Pardo 2017-03-27
+	 * @param double "number" Numero a dar formato
+	 */
+	function Currency (number) {
 		try {
-			// ...
-		} catch ( e ) {
-			// Imprime en consola el error
-			console.error( 'CURRENCY ERROR: ' +  e.message );
+			this.__number__ = number; // Número a dar formato
+			this.__decimals__ = 0; // Numero de decimales
+			this.__decPoint__ = ','; // Punto decimal
+			this.__thousandsSep__ = '.'; // Separador de miles
+			this.__prefix__; // Prefijo de moneda
+		} catch (e) {
+			console.error(e);
 		}
 	}
 
-	/** Formato de moneda */
-	Currency.prototype.format = function ( data ) {
-		// Valores por defecto
-		var def = { number:0 , decimales:0 , decPoint:',' , thousandsSep:'.' , prefix:'$ ' };
-
-		// Datos
-		var data = $.extend( def , data );
-
-		// Separa caracter a caracter el numero y le da la vuelta
-		data.number =  String( data.number ).split( '' ).reverse();
-		// Numero de digitos
-		var len = data.number.length ;
-
-		// Respuesta
-		var res = '' ;
-
-		// Recorre los numeros
-		for ( var i=0 ; i<len ; i++ ) {
-			// Agrega el numero a la respuesta
-			res = data.number[i] + res ;
+	/**
+	 * DAR FORMATO
+	 * @author Steven Pardo 2017-03-27
+	 * @param {string} "type" Tipo de moneda [cop, usd, eur, ...]
+	 * @return {string} Número formateado
+	 */
+	Currency.prototype.format = function (type) {
+		try {
+			var self = this; // Scope
 			
-			// Si lleva 3 digitos y no el ultimo digito
-			if ( ( i + 1 ) % 3 == 0 && ( i + 1 ) < len ) {
-				// Agrega el punto decimal
-				res = data.thousandsSep + res ;
+			switch (type) {
+				case 'cop':
+					self.__decimals__ = 0;
+					self.__decPoint__ = ',';
+					self.__thousandsSep__ = '.';
+					self.__prefix__ = '$';
+					break;
 			}
+
+			var number = String(self.__number__).split("").reverse(); // Numero a convertir
+			var length = number.length; // Número de caracteres
+			var response = ''; // Respuesta	
+
+			for (var i = 0; i < length; i++) {
+				response = number[i] + response;
+				
+				if ((i + 1) % 3 == 0 && (i + 1) < length) {
+					response = self.__thousandsSep__ + response;
+				}
+			}
+
+			return self.__prefix__ + response;
+		} catch (e) {
+			console.error(e);
 		}
 
-		// Respuesta
-		return data.prefix + res ;
 	}
 
-	// Instancia
-	return new Currency ;
-} () );
+	return Currency; // Objeto
+})();
