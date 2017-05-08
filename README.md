@@ -2,11 +2,17 @@
 
 > Convierte un número a formato de moneda
 
----
+## Instalar
 
-### Ejemplos de uso
+Agregue el archivo en sus archivos locales e incluya el archivo en el proyecto.
 
-#### Pesos colombianos (cop)
+```html
+<script src="currency.min.js"></script>
+```
+
+## Ejemplos de uso
+
+### Pesos colombianos (cop)
 
 Convertir un número a formato de moneda colombiana (cop).
 
